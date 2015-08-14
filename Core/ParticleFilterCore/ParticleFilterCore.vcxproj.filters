@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Headers Files">
+      <UniqueIdentifier>{577acce1-a731-47b3-bfb4-e56594fc8b76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{578b46db-5b5e-4e2a-bf3a-f7b3f0c33ae2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GPU">
+      <UniqueIdentifier>{8e82cb5a-f8c8-4292-a3e7-631ca080c596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers Files\CPU">
+      <UniqueIdentifier>{db039710-c2e4-445e-853f-74b5b3ebac0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers Files\GPU">
+      <UniqueIdentifier>{d49bc38f-ef4d-460f-889d-5bbea2276d86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CPU">
+      <UniqueIdentifier>{5e232e52-d3e1-420f-8e79-7e2778995e6c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="PFEngine.cu">
+      <Filter>Source Files\GPU</Filter>
+    </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ParticleFilter.h">
+      <Filter>Headers Files\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="PFEngine.h">
+      <Filter>Headers Files\GPU</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ParticleFilter.cpp">
+      <Filter>Source Files\CPU</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
