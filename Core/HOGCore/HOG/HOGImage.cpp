@@ -34,6 +34,13 @@ HOGImage::HOGImage(int width, int height, unsigned char* pixels)
 	isLoaded = true;
 }
 
+HOGImage::HOGImage(unsigned char* frame, int width, int height)
+{
+	this->width = width;
+	this->height = height;
+	this->pixels = frame;
+}
+
 HOGImage::HOGImage(char* fileName)
 {
 	af::array img_host;

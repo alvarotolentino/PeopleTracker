@@ -9,11 +9,12 @@
 #include "ImageWindow.h"
 #include "../Core/HOGCore/HOG/HOGImage.h"
 #include "../Core/HOGCore/HOG/HOGEngine.h"
+#include "../Core/CaptorCore/Captor.h"
 
 using namespace HOG;
 HOGImage* image;
 HOGImage* imageCUDA;
-//ImageWindow* fastHOGWindow;
+Captor* captor;
 
 void doStuffHere()
 {
@@ -34,7 +35,7 @@ void doStuffHere()
 	HOGEngine::Instance()->GetImage(imageCUDA, HOGEngine::IMAGE_ROI);
 	//fastHOGWindow->setImage(imageCUDA);
 
-	for (int i=0; i<HOGEngine::Instance()->nmsResultsCount; i++)
+	for (int i = 0; i < HOGEngine::Instance()->nmsResultsCount; i++)
 	{
 		printf("%1.5f %1.5f %4d %4d %4d %4d %4d %4d\n",
 			HOGEngine::Instance()->nmsResults[i].scale,
@@ -57,19 +58,58 @@ void doStuffHere()
 	HOGEngine::Instance()->FinalizeHOG();
 }
 
-int main(void)
+void Process()
 {
-	image = new HOGImage("C:/Users/Alvaro/Documents/GitHub/PeopleTracker/HOGCoreTest/Images/testImage.bmp");
-	imageCUDA = new HOGImage(image->width,image->height);
+	string window_name = "video | q or esc to quit";
+	cout << "press space to save a picture. q or esc to quit" << endl;
+	cv::namedWindow(window_name, CV_WINDOW_KEEPRATIO); //resizable window;
+	
+	
+	for (;;)
+	{
+		captor->InitCapture();
+		if (captor->frame.empty())
+			break;
 
-	/*fastHOGWindow = new ImageWindow(image, "fastHOG");
-	fastHOGWindow->doStuff = &doStuffHere;
-	fastHOGWindow->show();
+		cv::imshow(window_name, captor->frame);
+		char key = char(cv::waitKey(5)); //delay N millis, usually long enough to display and capture input
 
-	Fl::run();*/
-	doStuffHere();
-	delete image;
-	delete imageCUDA;
+		image = new HOGImage(captor->frame.data, captor->frame.rows, captor->frame.cols);
+		imageCUDA = new HOGImage(image->width, image->height);
+		doStuffHere();
 
-	return 0;
+		switch (key) {
+		case 'q':
+		case 'Q':
+		case 27: //escape key
+			return;
+		default:
+			break;
+		}
+	}
+
+}
+
+int main(int ac, char** av)
+{
+	captor = new Captor();
+	char * arg = "C:/Users/Alvaro/Documents/Cursos/PUCP/TESIS/Dataset/TownCentreXVID.avi";
+	captor->Connect(0, arg);
+	if (captor->camconnected)
+		Process();
+
+	free(captor);
+	//image = new HOGImage("C:/Users/Alvaro/Documents/GitHub/PeopleTracker/HOGCoreTest/Images/testImage.bmp");
+	//imageCUDA = new HOGImage(image->width,image->height);
+
+	///*fastHOGWindow = new ImageWindow(image, "fastHOG");
+	//fastHOGWindow->doStuff = &doStuffHere;
+	//fastHOGWindow->show();
+
+	//Fl::run();*/
+	//doStuffHere();
+	//delete image;
+	//delete imageCUDA;
+
+	//return 0;
 }

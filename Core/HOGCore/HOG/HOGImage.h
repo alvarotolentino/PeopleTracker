@@ -19,6 +19,7 @@ namespace HOG
 		int width, height;
 		unsigned char* pixels;
 
+		HOGImage(unsigned char* frame, int width, int height);
 		HOGImage(char* fileName);
 		HOGImage(int width, int height);
 		HOGImage(int width, int height, unsigned char *pixels);
